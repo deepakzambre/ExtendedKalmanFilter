@@ -19,6 +19,10 @@ public:
   */
   virtual ~Tools();
 
+  VectorXd ToPolar(const VectorXd &x);
+
+  VectorXd ToCartesian(const VectorXd &x);
+  
   /**
   * A helper method to calculate RMSE.
   */
