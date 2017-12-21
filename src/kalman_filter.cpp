@@ -1,5 +1,6 @@
 #include<iostream>
 #include "kalman_filter.h"
+#include <math.h>
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -73,9 +74,17 @@ void KalmanFilter::UpdateEKF(Tools &tools, const VectorXd &z)
      * update the state by using Extended Kalman Filter equations
      */
 
-  VectorXd polar = tools.ToPolar(x_);
-  // cout << "Polar predicted state = " << polar << endl;
-  VectorXd y = z - polar;
+  VectorXd y = z - tools.ToPolar(x_);
+  while (y[1] > 3.141592653)
+  {
+    y[1] -= 2 * 3.141592653;
+  }
+
+  while (y[1] < -3.141592653)
+  {
+    y[1] += 2 * 3.141592653;
+  }
+
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();

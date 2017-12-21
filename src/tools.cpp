@@ -18,8 +18,16 @@ VectorXd Tools::ToPolar(const VectorXd &x)
 {
   VectorXd ret = VectorXd(3);
   double rho = sqrt(x[0] * x[0] + x[1] * x[1]);
-  double phi = atan(x[1] / x[0]);
-  double rho_dot = (x[0] * x[2] + x[1] * x[3]) / rho;
+  double phi = atan2(x[1], x[0]);
+  double rho_dot;
+  if (fabs(rho) < 0.0001)
+  {
+    rho_dot = 0;
+  }
+  else
+  {
+    rho_dot = (x[0] * x[2] + x[1] * x[3]) / rho;
+  }
 
   ret << rho, phi, rho_dot;
 

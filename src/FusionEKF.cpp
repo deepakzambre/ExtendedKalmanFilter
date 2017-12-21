@@ -56,14 +56,6 @@ FusionEKF::~FusionEKF() {}
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
 {
-  // cout << "Processing input number = " << ++input_num_ << endl;
-  // cout << "Type = " << measurement_pack.sensor_type_ << endl;
-  //   cout << "Input = " << endl << measurement_pack.raw_measurements_ << endl;
-  // if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR)
-  // {
-  //   cout << "Cartesian for radar = " << endl << tools.ToCartesian(measurement_pack.raw_measurements_) << endl;
-  // }
-  
   /*****************************************************************************
    *  Initialization
    ****************************************************************************/
@@ -127,9 +119,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
 
 
   float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
-
-//  cout << "dt = " << dt << endl;
-
   previous_timestamp_ = measurement_pack.timestamp_;
 
   ekf_.F_ << 1, 0, dt, 0,
@@ -149,8 +138,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
   ekf_.Q_ = G * Qv * G.transpose();
 
   ekf_.Predict();
-
-  // cout << "Predicted x_ = " << endl << ekf_.x_ << endl;
 
   /*****************************************************************************
    *  Update
@@ -180,9 +167,4 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
   // print the output
   cout << "x_ = " << ekf_.x_ << endl;
   cout << "P_ = " << ekf_.P_ << endl;
-
-  // if (input_num_ == 220)
-  //{
-  //  char c = getchar();
-  //}
 }
